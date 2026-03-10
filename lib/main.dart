@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'counter_controller.dart';
 import 'display_counter.dart';
 
 void main() {
@@ -15,9 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Widgets Project',
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.indigo,
-        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
       ),
       home: const CounterPageStateful(),
     );
@@ -27,30 +26,42 @@ class MyApp extends StatelessWidget {
 class CounterPageStateful extends StatefulWidget {
   const CounterPageStateful({super.key});
   @override
-  State<CounterPageStateful> createState() =>
-      _CounterPageStatefulState();
+  State<CounterPageStateful> createState() => _CounterPageStatefulState();
 }
 
-class _CounterPageStatefulState
-    extends State<CounterPageStateful> {
-  int value = 0; // mutable state
+class _CounterPageStatefulState extends State<CounterPageStateful> {
+  final _controller = CounterController(); // instantiate the controller
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Counter (refactored)'),
-      ),
+      appBar: AppBar(title: const Text('Counter (refactored)')),
       body: Center(
         // uses the child widget
-        child: DisplayCounter(value: value),
+        child: DisplayCounter(value: _controller.value),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            value++; // updates the state
-          });
-        },
-        child: const Icon(Icons.add),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            heroTag: 'add',
+            onPressed: () {
+              setState(() {
+                _controller.increment();
+              });
+            },
+            child: const Icon(Icons.add),
+          ),
+          const SizedBox(height: 8),
+          FloatingActionButton(
+            heroTag: 'reset',
+            onPressed: () {
+              setState(() {
+                _controller.reset();
+              });
+            },
+            child: const Icon(Icons.refresh),
+          ),
+        ],
       ),
     );
   }
