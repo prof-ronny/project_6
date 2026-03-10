@@ -17,31 +17,39 @@ class MyApp extends StatelessWidget {
           seedColor: Colors.indigo,
         ),
       ),
-      home: const CounterPageStatic(),
+      home: const CounterPageStateful(),
     );
   }
 }
 
-class CounterPageStatic extends StatelessWidget {
-  const CounterPageStatic({super.key});
+class CounterPageStateful extends StatefulWidget {
+  const CounterPageStateful({super.key});
+  @override
+  State<CounterPageStateful> createState() =>
+      _CounterPageStatefulState();
+}
+
+class _CounterPageStatefulState
+    extends State<CounterPageStateful> {
+  int value = 0; // mutable state
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Counter (static)'),
+        title: const Text('Counter (Stateful)'),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            const Text(
               'Current value:',
               style: TextStyle(fontSize: 20),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
-              '0', // Fixed value
-              style: TextStyle(
+              '$value',
+              style: const TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
               ),
@@ -50,7 +58,11 @@ class CounterPageStatic extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: null, // does nothing yet
+        onPressed: () {
+          setState(() {
+            value++; // updates the state
+          });
+        },
         child: const Icon(Icons.add),
       ),
     );
