@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'display_counter.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -36,26 +38,11 @@ class _CounterPageStatefulState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Counter (Stateful)'),
+        title: const Text('Counter (refactored)'),
       ),
       body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              'Current value:',
-              style: TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              '$value',
-              style: const TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
+        // uses the child widget
+        child: DisplayCounter(value: value),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
